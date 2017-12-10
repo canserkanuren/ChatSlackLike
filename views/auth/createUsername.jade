@@ -1,0 +1,15 @@
+extends ../layout
+
+block content
+    .container
+        .row
+            .col-md-4
+            .col-md-4
+                form.form-horizontal(action="/auth/addUsername/#{user.facebook.id}", method="POST")
+                    .form-group
+                        div
+                            input#message(name="content", type="text", placeholder="What are you up to today?")
+                        div
+                            input.btn.btn-default(type="submit", value="Create Username")
+            .col-md-4
+                

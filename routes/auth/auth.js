@@ -39,11 +39,6 @@ router.get('/google', passport.authenticate('google', {
     scope : ['https://www.googleapis.com/auth/plus.login', 'https://www.googleapis.com/auth/plus.profile.emails.read']
 }));
 
-router.get('/logout', function(req, res) {
-    req.logout();
-    res.redirect('/');
-});
-
 router.post('/login', passport.authenticate('login', {
     successRedirect : '/',
     failureRedirect :'/auth/login'
@@ -58,6 +53,11 @@ router.post('/signup', passport.authenticate('signup', {
     failureRedirect :'/auth/signup'
 }));
 
+router.get('/logout', function(req, res) {
+    req.logout();
+    res.redirect('/');
+});
+
 router.get('/createUsername', (req, res) => {
     User.findOne({'facebook.id' : req.user.facebook.id}, (err, user) => {
         console.log(user);
@@ -67,12 +67,9 @@ router.get('/createUsername', (req, res) => {
             res.redirect('/');
         }
     });
-    
 });
 
 router.post('/addUsername/:userId', (req, res) => {
-    console.log("JARRIVE ICI HEHEHEHHEEHHEHEHEHEHEHEHE");
-    console.log(req.user._id);
     User.findOne({ 'facebook.id' :  req.params.userId}, function(err, user){
         if(err)
             return done(err);

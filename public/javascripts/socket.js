@@ -6,9 +6,9 @@ socket.on('EHLO', function(data) {
 
 socket.on('new-message', function(data){
     var temp = document.getElementById('messagesList').innerHTML;
-    document.getElementById('messagesList').innerHTML = "<li>" 
+    document.getElementById('messagesList').innerHTML = temp 
+                                +"<li>" 
                                 + data.user.username 
                                 + " : " + data.content 
-                                + "</li>" 
-                                + temp;
+                                + "</li>" ;
 });

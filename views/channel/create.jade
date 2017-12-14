@@ -1,0 +1,14 @@
+extends ../layout
+
+block content
+    .container
+        .row
+            .col-md-4
+            .col-md-4
+                form.form-horizontal(action="/create", method="POST")
+                    .form-group
+                        div
+                            input#message(name="channelName", type="text", placeholder="Enter a channel name over here !" style="width:100%;")
+                        br
+                        div
+                            input.btn.btn-default(type="submit", value="Create Channel" style="width:100%;")

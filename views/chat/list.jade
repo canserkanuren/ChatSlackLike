@@ -7,13 +7,14 @@ block content
                 if messages.length > 0
                     each message in messages 
                         li
-                            |   #{message.user.username} : #{message.content}
-                            if message.user._id == user_id
-                            a(href='/delete/#{message._id}' class="btn btn-danger") Delete Message
+                            p!= md( message.content)
+                            //- #{message.user.username} :  
+                            //- if message.user._id == user_id
+                                a(href='/channel/#{channel_id}/delete/#{message._id}' class="btn btn-danger") Delete Message
                 else
                     li Pas de messages dans ce chat ! :(
         .panel-body
-            form.form-horizontal(action="/new", method="POST")
+            form.form-horizontal(action="/channel/#{channel_id}/addMessage", method="POST")
                 .form-group
                     .label.col-md-2(for="message")
                     .input-group

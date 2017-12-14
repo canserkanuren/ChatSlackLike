@@ -1,0 +1,18 @@
+extends ../layout
+
+block content
+    .container
+        .row
+            .col-md-4
+            .col-md-4
+                .card
+                    ul#channelsList(style="margin-top: 1rem !important;")
+                        if channels.length > 0
+                            each channel in channels 
+                                li(style="margin-top: 0.5rem !important; margin-bottom: 0.5rem !important;")
+                                    a.btn(href="/channel/#{channel._id}") #{channel.name}
+                                    a.btn.btn-danger(href="/delete/#{channel._id}") X
+                        else 
+                            | No channel !
+                    a.btn.btn-primary(href="/create")
+                        | Create a new channel !

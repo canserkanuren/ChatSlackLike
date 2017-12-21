@@ -7,6 +7,7 @@ var UserSchema = new Schema({
     email: String,
     isAdmin: Boolean,
     isSuperAdmin: Boolean,
+    
     facebook : {
         id : String,
         token : String,

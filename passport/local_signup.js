@@ -37,10 +37,10 @@ passport.use('signup', new LocalStrategy({
                 
                 nUser.save(function(err){
                     if(err) {
-                        console.log("Shit, something went wrong");
+                        console.log("Something went wrong...");
                         throw err;
                     }
-                    console.log('User created ! Yay !');
+                    console.log('User has been created');
                     return done(null, nUser);
                 });
             }

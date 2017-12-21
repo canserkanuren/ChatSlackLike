@@ -54,6 +54,8 @@ router.post('/signup', passport.authenticate('signup', {
 }));
 
 router.get('/logout', function(req, res) {
+    let index = req.app.get('connectedUsers').indexOf(req.user.username);
+    req.app.get('connectedUsers').splice(index, 1);
     req.logout();
     res.redirect('/');
 });

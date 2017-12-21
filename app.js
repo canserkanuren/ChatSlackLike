@@ -89,9 +89,10 @@ var server = http.createServer(app);
 var io = require('socket.io')(server);
 io.adapter(ioRedis({ host: 'localhost', port: 6379 }));
 
-
 app.set('socketio', io);
 
+let connectedUsers = [];
+app.set('connectedUsers', connectedUsers);
 
 sticky.listen(server, port, function() {
   console.log('Server started listening on port : ' + port);
@@ -155,8 +156,8 @@ function onListening() {
   debug('Listening on ' + bind);
 }
 
-io.on('connection', function(socket) {
-  socket.emit("EHLO", { hello : 'world '});
+io.on('connection', (socket) => {
+  console.log("A user has connected to the website.");
 });
 
 module.exports = app;

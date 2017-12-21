@@ -4,18 +4,18 @@ var isAuth = require('../tools/auth-tools').isAuth;
 var mongoose = require('mongoose');
 var Channel = mongoose.model('Channel');
 
-router.get('/', isAuth, function(req, res, next) {
+router.get('/', isAuth, (req, res, next) => {
   Channel.find().sort({'date' : 'asc'}).populate('user').populate('channel').exec(function(err, items)
   {
     res.render('channel/list', { channels: items });
   });
 });
 
-router.get('/create', isAuth, (req, res) => {
+router.get('/create', isAuth, (req, res, next) => {
   res.render('channel/create');
 })
 
-router.post('/create', isAuth, (req, res) => {
+router.post('/create', isAuth, (req, res, next) => {
   let channel = new Channel();
   console.log(req.body.channelName);
   channel.name = req.body.channelName;
@@ -28,9 +28,9 @@ router.post('/create', isAuth, (req, res) => {
   })
 });
 
-router.get('/delete/:id', isAuth, function(req, res){
-  Channel.findById(req.params.id, function(err, item) {
-    Channel.findByIdAndRemove(req.params.id, function(err, item) {
+router.get('/delete/:id', isAuth, (req, res, next) => {
+  Channel.findById(req.params.id, (err, item) => {
+    Channel.findByIdAndRemove(req.params.id, (err, item) => {
       if(err)
         return res.send("Error");
       

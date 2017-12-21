@@ -1,23 +1,32 @@
 extends ../layout
 
 block content
-    .panel.panel-default
-        .panel-heading
-            ul#messagesList
-                if messages.length > 0
-                    each message in messages 
-                        li
-                            p!= md( message.content)
-                            //- #{message.user.username} :  
-                            //- if message.user._id == user_id
-                                a(href='/channel/#{channel_id}/delete/#{message._id}' class="btn btn-danger") Delete Message
-                else
-                    li Pas de messages dans ce chat ! :(
-        .panel-body
-            form.form-horizontal(action="/channel/#{channel_id}/addMessage", method="POST")
-                .form-group
-                    .label.col-md-2(for="message")
-                    .input-group
-                        input#message(name="content", type="text", placeholder="Say what you want here !" style="width:100%")
-                        input.btn.btn-default(type="submit", value="Send")
-            
+    .container
+        .row 
+            .col-sm-4
+                .card(style="width:100; padding:1rem;")
+                    span Connected users : 
+                    div#userList
+                        if connectedUsers.length > 0
+                            each user in connectedUsers
+                                if channel_id == user.channel_id
+                                    strong #{user.user} 
+                                    br
+                        else 
+                            strong No user is connected to this channel !
+            .col-sm-8
+                ul#messagesList.list-group
+                    if messages.length > 0
+                        each message in messages 
+                            li.list-group-item(style="padding-bottom:0;")
+                                h4.list-group-item-heading #{message.user.username}
+                                    a(href='/channel/#{channel_id}/delete/#{message._id}' class="btn btn-danger" style="float:right;") X
+                                span.list-group-item-text!= md(message.content) 
+                    else
+                        li.list-group-item Pas de messages dans ce chat ! :(
+                form.form-horizontal(action="/channel/#{channel_id}/addMessage", method="POST")
+                    .form-group
+                        .input-group
+                            input#message(name="content", type="text", placeholder="Say what you want here !" style="width:100%")
+                            input.btn.btn-default(type="submit", value="Send")
+                .h2#errorMessage(style="color:red;")

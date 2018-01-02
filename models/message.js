@@ -5,6 +5,9 @@ var User = mongoose.model('User');
 var MessageSchema = new Schema({
     content : String,
     date : Date,
+    emoji : Array,
+    isCensored : Boolean,
+    isDeleted: Boolean,
     user : { type : mongoose.Schema.Types.ObjectId, ref : "User"},
     channel : { type : mongoose.Schema.Types.ObjectId, ref : "Channel"}
 });

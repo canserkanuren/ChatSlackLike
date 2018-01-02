@@ -8,25 +8,76 @@ block content
                     span Connected users : 
                     div#userList
                         if connectedUsers.length > 0
-                            each user in connectedUsers
-                                if channel_id == user.channel_id
-                                    strong #{user.user} 
-                                    br
+                            if isAdminOfThisChannel || isSuperAdmin
+                                each user in connectedUsers
+                                    div#user
+                                        if channel_id == user.channel_id
+                                            a(href='/user/#{user.user_id}/#{channel_id}' class='margin-top:1rem !important;')
+                                                strong #{user.user}
+                                        a(class="btn btn-outline-secondary" style='float:right;margin-left:5px;' href='/user/#{user.user_id}/admin/ban/#{channel_id}')
+                                            | BAN
+                                        a(class="btn btn-outline-secondary" style='float:right;margin-left:5px;' href='/user/#{user.user_id}/admin/censor/#{channel_id}')
+                                            | CENSOR
+                                        br
+                            else 
+                                each user in connectedUsers
+                                    div#user
+                                        if channel_id == user.channel_id
+                                            strong #{user.user}
+                                        
+                                        br
                         else 
                             strong No user is connected to this channel !
             .col-sm-8
                 ul#messagesList.list-group
                     if messages.length > 0
                         each message in messages 
-                            li.list-group-item(style="padding-bottom:0;")
-                                h4.list-group-item-heading #{message.user.username}
-                                    a(href='/channel/#{channel_id}/delete/#{message._id}' class="btn btn-danger" style="float:right;") X
-                                span.list-group-item-text!= md(message.content) 
+                            if message.isDeleted
+                                li.list-group-item(style="padding-bottom:0;")
+                                    h4.list-group-item-heading This message has been deleted by an admin. 
+                            else if message.isCensored
+                                li.list-group-item(style="padding-bottom:0;")
+                                    h4.list-group-item-heading This message has been censored by an admin. 
+                            else 
+                                li.list-group-item(style="padding-bottom:0;")
+                                    h4.list-group-item-heading(style="margin-bottom:0;") #{message.user.username} 
+                                    span(style="margin-bottom: 1rem;") at #{message.date}
+                                        button(class='btn btn-outline-secondary btn-sm' style='margin-left:10px;' onclick='showModalForEmoji()')
+                                            span.fa.fa-smile-o
+                                            |  Emote
+                                        if user_id.toString() == message.user._id.toString()
+                                            a(href='/channel/#{channel_id}/delete/#{message._id}' class="btn btn-danger" style="float:right;") X
+                                        if isAdminOfThisChannel || isSuperAdmin
+                                            a(href='/channel/#{channel_id}/admin/delete/#{message._id}' class="btn btn-danger" style="float:right;") Delete
+                                            a(href='/channel/#{channel_id}/admin/censor/#{message._id}' class="btn btn-danger" style="float:right;") Censor
+                                    span.list-group-item-text!= md(message.content) 
+                                    each emoji in message.emoji
+                                        span.list-group-item-text!= emoji.emojify(emoji)
+                                #emojiModal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='exampleModalLabel', aria-hidden='true')
+                                    .modal-dialog(role='document')
+                                        .modal-content
+                                            .modal-header
+                                                h5#exampleModalLabel.modal-title Emote emoji
+                                                button.close(type='button', data-dismiss='modal', aria-label='Close')
+                                                    span(aria-hidden='true') ×
+                                            .modal-body
+                                                .form-group
+                                                    label.form-control-label(for='message-text') Write over here the emoji you want to add to this message
+                                                    label.form-control-label(for='message-text') Exemples : ":heart:", " :coffee:".
+                                                    a(href='https://www.emoji.codes/family')
+                                                        | Full list.
+                                                form.form-horizontal(action="/channel/#{channel_id}/addEmojiToMessage/#{message._id}" method="POST")
+                                                    textarea#message-text.form-control(name="emojiForMessage")
+                                                    .form-group.modal-footer
+                                                        button.btn.btn-secondary(type='button', data-dismiss='modal') Close
+                                                        button.btn.btn-primary(type='submit') Send
                     else
                         li.list-group-item Pas de messages dans ce chat ! :(
                 form.form-horizontal(action="/channel/#{channel_id}/addMessage", method="POST")
                     .form-group
                         .input-group
-                            input#message(name="content", type="text", placeholder="Say what you want here !" style="width:100%")
-                            input.btn.btn-default(type="submit", value="Send")
-                .h2#errorMessage(style="color:red;")
+                            if isCensoredInThisChannel 
+                                input#message(name="content", type="text", placeholder="Say what you want here !" style="width:100%" disabled)
+                            else 
+                                input#message(name="content", type="text", placeholder="Say what you want here !" style="width:100%" required)
+                                input.btn.btn-default(type="submit", value="Send")

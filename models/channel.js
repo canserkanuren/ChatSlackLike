@@ -5,6 +5,7 @@ var Message = mongoose.model('Message');
 var ChannelSchema = new Schema({
     id: String,
     name: String,
+    createdBy: String,
     user : { type : mongoose.Schema.Types.ObjectId, ref : "User"}
 });
 

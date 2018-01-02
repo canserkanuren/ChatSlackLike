@@ -62,7 +62,6 @@ router.get('/logout', function(req, res) {
 
 router.get('/createUsername', (req, res) => {
     User.findOne({'facebook.id' : req.user.facebook.id}, (err, user) => {
-        console.log(user);
         if(user.username == ""){
             res.render('auth/createUsername', {user : req.user});
         } else {
@@ -78,7 +77,6 @@ router.post('/addUsername/:userId', (req, res) => {
         
             if(user) {
                 user.username = req.body.content;
-                console.log(req.body.content);
                 user.save((err) => {
                     if(err){
                         throw err;

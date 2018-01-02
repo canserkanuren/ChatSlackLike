@@ -11,7 +11,8 @@ block content
                             each channel in channels 
                                 li(style="margin-top: 0.5rem !important; margin-bottom: 0.5rem !important;")
                                     a.btn(href="/channel/#{channel._id}") #{channel.name}
-                                    a.btn.btn-danger(href="/delete/#{channel._id}") X
+                                    if (actualUserId.toString() == channel.createdBy.toString()) || userConnected.isSuperAdmin 
+                                        a.btn.btn-danger(href="/delete/#{channel._id}") X
                         else 
                             | No channel !
                     a.btn.btn-primary(href="/create")

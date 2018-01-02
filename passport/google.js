@@ -24,8 +24,10 @@ module.exports =  function(passport) {
                         nUser.google.token = token;
                         nUser.email = profile.email;
                         nUser.username = profile.displayName;
-                        nUser.isAdmin = false;
+                        nUser.isAdmin = [];
                         nUser.isSuperAdmin = false;
+                        nUser.isCensored.channels = [];
+                        nUser.isBanned.channels = [];
                         nUser.save(function(err) {
                             if(err)
                                 throw err;

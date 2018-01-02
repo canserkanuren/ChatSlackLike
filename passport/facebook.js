@@ -26,9 +26,10 @@ module.exports =  function(passport) {
                     nUser.facebook.token =token;
                     nUser.email = profile.emails[0].value;
                     nUser.username = "";
-                    nUser.isAdmin = false;
+                    nUser.isAdmin = [];
                     nUser.isSuperAdmin = false;
-
+                    nUser.isCensored.channels = [];
+                    nUser.isBanned.channels = [];
                     nUser.save(function(err) {
                         if(err)
                             throw err;

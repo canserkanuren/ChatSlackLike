@@ -5,9 +5,14 @@ var UserSchema = new Schema({
     username: String,
     password: String,
     email: String,
-    isAdmin: Boolean,
+    isAdmin: Array,
     isSuperAdmin: Boolean,
-    
+    isBanned : {
+        channels : Array
+    },
+    isCensored : {
+        channels: Array
+    },
     facebook : {
         id : String,
         token : String,

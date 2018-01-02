@@ -21,6 +21,7 @@ var Channel = require('./models/channel');
 var index = require('./routes/index');
 var auth = require('./routes/auth/auth');
 var channel = require('./routes/channel/channel');
+var user = require('./routes/user/user');
 
 var app = express();
 
@@ -61,6 +62,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', index);
 app.use('/auth', auth);
 app.use('/channel', channel);
+app.use('/user', user);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -83,7 +85,6 @@ app.use(function(err, req, res, next) {
 
 var port = 3000;
 app.set('port', port);
-
 
 var server = http.createServer(app);
 var io = require('socket.io')(server);
@@ -147,7 +148,6 @@ function onError(error) {
   }
 }
 
-
 function onListening() {
   var addr = server.address();
   var bind = typeof addr === 'string'
@@ -155,9 +155,5 @@ function onListening() {
     : 'port ' + addr.port;
   debug('Listening on ' + bind);
 }
-
-io.on('connection', (socket) => {
-  console.log("A user has connected to the website.");
-});
 
 module.exports = app;

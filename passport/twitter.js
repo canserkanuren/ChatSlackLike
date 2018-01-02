@@ -19,12 +19,13 @@ module.exports =  function(passport) {
                     } else {
                         var nUser = new User();
                         
-                        console.log(profile);
                         nUser.twitter.id = profile.id;
                         nUser.twitter.token = token;
                         nUser.username = profile.username;
-                        nUser.isAdmin = false;
+                        nUser.isAdmin = [];
                         nUser.isSuperAdmin = false;
+                        nUser.isCensored.channels = [];
+                        nUser.isBanned.channels = [];
 
                         nUser.save(function(err) {
                             if(err)

@@ -10,7 +10,7 @@ var isValidPassword = function(user, password) {
 
 var createHash = function(password){
     return bCrypt.hashSync(password, bCrypt.genSaltSync(10), null);
-   }
+}
 
 module.exports = function(passport) {
 
@@ -32,8 +32,10 @@ passport.use('signup', new LocalStrategy({
                 nUser.username = username;
                 nUser.password = createHash(password);
                 nUser.email = req.params.email;
-                nUser.isAdmin = false;
+                nUser.isAdmin = [];
                 nUser.isSuperAdmin = false;
+                nUser.isCensored.channels = [];
+                nUser.isBanned.channels = [];
                 
                 nUser.save(function(err){
                     if(err) {

@@ -1,0 +1,27 @@
+extends ../layout
+
+block content
+    .container
+        .row
+            .col-md-4
+                .card
+                    span User detail : 
+                        strong #{user.username}
+            .col-md-8
+                .card
+                    form(method="POST" action="/user/#{user._id}/admin/#{channel_id}")
+                        div.isAdmin
+                            span Admin of this channel: 
+                                if isAdminOfThisChannel
+                                    input(type="checkbox" name="checkboxIsAdmin" id="checkboxIsAdmin" checked)
+                                else 
+                                    input(type="checkbox" name="checkboxIsAdmin" id="checkboxIsAdmin")
+                                input(type="hidden" name="inputIsAdmin" id="inputIsAdmin" value="#{isAdminOfThisChannel}")
+                        div.isSuperAdmin
+                            span Super Admin : 
+                            if user.isSuperAdmin
+                                    input(type="checkbox" name="checkboxIsSuperAdmin" id="checkboxIsSuperAdmin" checked)
+                                else 
+                                    input(type="checkbox" name="checkboxIsSuperAdmin" id="checkboxIsSuperAdmin")
+                                input(type="hidden" name="inputIsSuperAdmin" id="inputIsSuperAdmin" value="#{user.isSuperAdmin}")
+                        button(type="submit" id="valider" class="btn btn-primary" style="text-align:center; !important") Send

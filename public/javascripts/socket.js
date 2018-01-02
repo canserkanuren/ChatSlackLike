@@ -1,4 +1,4 @@
-var socket = io('http://localhost:3000');
+let socket = io('http://localhost:3000');
 
 socket.on('new-message', (data) => {
     var old = document.getElementById('messagesList').innerHTML;
@@ -16,10 +16,6 @@ socket.on('new-channel', (data) => {
                                 + "<a class='btn' href='/channel/ " + data._id + "'>" + data.name + "</a>"
                                 + "<a class='btn btn-danger' href='/channel/" + data._id + "'> X </a>"
                                 + "</li>"; 
-});
-
-socket.on('delete-not-authorized', () => {
-    document.getElementById('errorMessage').innerHTML = "You cannot delete a message that is not yours."
 });
 
 socket.on('new-user', (data) => {

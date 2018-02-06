@@ -51,8 +51,8 @@ block content
                                             a(href='/channel/#{channel_id}/admin/delete/#{message._id}' class="btn btn-danger" style="float:right;") Delete
                                             a(href='/channel/#{channel_id}/admin/censor/#{message._id}' class="btn btn-danger" style="float:right;") Censor
                                     span.list-group-item-text!= md(message.content) 
-                                    each emoji in message.emoji
-                                        span.list-group-item-text!= emoji.emojify(emoji)
+                                    each emojis in message.emoji
+                                        span.list-group-item-text!= emoji.emojify(emojis)
                                 #emojiModal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='exampleModalLabel', aria-hidden='true')
                                     .modal-dialog(role='document')
                                         .modal-content
